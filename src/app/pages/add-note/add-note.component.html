@@ -1,0 +1,28 @@
+<div class="container">
+    <h2>Agrega una nota</h2>
+        <mat-form-field>
+            <mat-label>Título</mat-label>
+            <input matInput [(ngModel)]="note.title">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Agregar a </mat-label>
+            <mat-select matInput>
+              <mat-option value="one" *ngFor="let folder of folders">{{ folder.name | titlecase}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Texto</mat-label>
+    
+            <textarea matInput
+            cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize"
+            [cdkAutosizeMinRows]="1"
+            [cdkAutosizeMaxRows]="2"
+            [(ngModel)]="note.body">
+            </textarea>
+    
+          </mat-form-field>
+    
+          <button type="submit" mat-raised-button (click)="addNote()">Guardar</button>
+</div>
+

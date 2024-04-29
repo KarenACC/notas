@@ -1,0 +1,11 @@
+.container{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+h2{
+    text-align: center;
+    color: rgb(84, 33, 132);
+}

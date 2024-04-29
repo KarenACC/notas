@@ -1,0 +1,12 @@
+<h2>Tus Notas</h2>
+<div class="container">
+    
+    <app-note-card
+    *ngFor="let note of list"
+    [title]="note.title"
+    [body]="note.body"
+    [date]="note.date"
+    [note]="note"
+    >
+    </app-note-card>
+</div>

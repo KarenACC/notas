@@ -1,0 +1,39 @@
+.container{
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+:host {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  mat-form-field{
+    width: 70%;
+  }
+  
+  textarea{
+      height: 100px;
+      overflow: auto;
+    }
+    
+    h2{
+        color: rgb(84, 33, 132);
+    }
+    
+    @media screen and (max-width: 550px){
+      mat-form-field{
+        width: 100%;
+      }
+
+      textarea{
+          height: 250px;
+          overflow: auto;
+      }
+
+  }
+  

@@ -1,0 +1,15 @@
+mat-card{
+    width: 350px;
+    margin: 5px;
+}
+
+mat-form-field{
+    height: 55px;
+    width: 110px;
+    display: block;
+    margin-right: 5px;
+}
+
+mat-label{
+    font-size: 13px;
+}

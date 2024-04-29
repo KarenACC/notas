@@ -1,0 +1,35 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>{{  name | titlecase}}</mat-card-title>
+        <mat-card-subtitle>{{ date | date}}</mat-card-subtitle>
+        <strong>Notas: {{ notes }}</strong>
+    </mat-card-header>
+    <mat-card-actions align="end">
+        <button mat-icon-button>
+            <mat-icon>visibility</mat-icon>
+        </button>
+        <button mat-icon-button
+        *ngIf="!isDeleted">
+            <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button
+        *ngIf="!isDeleted">
+            <mat-icon>add</mat-icon>
+        </button>
+        <button mat-icon-button
+        *ngIf="isDeleted"
+        (click)="restore(folder)">
+            <mat-icon>restore</mat-icon>
+        </button>
+        <button mat-icon-button style="background-color: rgb(210, 18, 18);"
+        *ngIf="isDeleted"
+        (click)="deleteForeverModal(folder)">
+            <mat-icon style="color: white;">delete_forever</mat-icon>
+        </button>
+        <button mat-icon-button style="background-color: rgb(210, 18, 18);"
+                (click)="delete(folder)"
+                *ngIf="!isDeleted">
+            <mat-icon style="color: white;">delete</mat-icon>
+        </button>
+    </mat-card-actions>
+</mat-card>

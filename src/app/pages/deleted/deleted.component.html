@@ -1,0 +1,25 @@
+<h2>Papelera</h2>
+<div class="container">
+
+    <app-folder-card
+    *ngFor="let folder of foldersTrash"
+    [name]="folder.name"
+    [isDeleted]="true"
+    [date]="folder.date"
+    [notes]="folder.notes?.length || 0"
+    [folder]="folder"
+    >
+
+    </app-folder-card>
+    
+    <app-note-card
+    *ngFor="let note of trash"
+    [title]="note.title"
+    [body]="note.body"
+    [date]="note.date"
+    [note]="note"
+    [isDeleted]="true"
+    >
+    </app-note-card>
+</div>
+

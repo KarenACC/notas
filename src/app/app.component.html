@@ -1,0 +1,44 @@
+<mat-toolbar>
+  <button mat-icon-button *ngIf="sidenav.mode==='over'" (click)="sidenav.toggle()">
+  <mat-icon *ngIf="!sidenav.opened">menu</mat-icon>
+  <mat-icon *ngIf="sidenav.opened">close</mat-icon>
+</button>
+  Notas
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav #sidenav="matSidenav">
+    <button mat-button class="menu-button" routerLink="/notas">
+      <mat-icon>bookmark</mat-icon>
+      <span>Tus notas</span>
+    </button>
+
+    <button mat-button class="menu-button" routerLink="/carpetas">
+      <mat-icon>folder</mat-icon>
+      <span>Tus carpetas</span>
+    </button>
+
+    <mat-divider></mat-divider>
+    <button mat-button class="menu-button" routerLink="/crear-nota">
+      <mat-icon>note_add</mat-icon>
+      <span>Crear Nota</span>
+    </button>
+    
+    <button mat-button class="menu-button" routerLink="/crear-carpeta">
+      <mat-icon>create_new_folder</mat-icon>
+      <span>Crear Carpeta</span>
+    </button>
+    
+    <mat-divider></mat-divider>
+    <button mat-button class="menu-button" routerLink="/papelera">
+      <mat-icon>delete</mat-icon>
+      <span>Papelera</span>
+    </button>
+
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="content mat-elevation-z4">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

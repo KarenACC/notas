@@ -1,0 +1,10 @@
+mat-card{
+    width: 350px;
+    margin: 5px;
+    background-color: rgb(237, 218, 255);
+}
+
+mat-card-header{
+    display: flex;
+    flex-direction: column;
+}

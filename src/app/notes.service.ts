@@ -3,6 +3,7 @@ import { Note } from './interfaces/note.interface';
 import { v4 as uuidv4 } from 'uuid';
 import Swal from 'sweetalert2';
 import { Folder } from './interfaces/folder.interface';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -103,6 +104,11 @@ export class NotesService {
     this._trash= this.trash.filter(note => note.id !== id)
     this.saveToLocalStorage('eliminadas', this._trash);
   }
+
+  getNoteById(id:string):Observable<Note | undefined>{
+    const note = this._notes.find(note => note.id === id);
+    return of (note);
+  }
   // 
   //
   //  
@@ -151,6 +157,11 @@ export class NotesService {
     let id= folder.id
     this._foldersTrash= this._foldersTrash.filter(folder => folder.id !== id)
     this.saveToLocalStorage('carpetas_eliminadas', this._foldersTrash);
+  };
+
+  getFolderById(id:string):Observable<Folder | undefined>{
+    const folder = this._folders.find(folder => folder.id === id);
+    return of (folder);
   }
 
   

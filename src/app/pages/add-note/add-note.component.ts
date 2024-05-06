@@ -41,7 +41,7 @@ export class AddNoteComponent implements AfterViewInit {
       icon: "success",
       title: "Nota guardada",
       showConfirmButton: false,
-      timer: 1500
+      timer: 1500 
     });
   }
 }

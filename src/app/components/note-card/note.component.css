@@ -1,6 +1,8 @@
 mat-card{
     width: 350px;
     margin: 5px;
+    height: fit-content;
+    overflow: hidden;
 }
 
 mat-form-field{
@@ -12,4 +14,10 @@ mat-form-field{
 
 mat-label{
     font-size: 13px;
+}
+
+mat-card-content{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

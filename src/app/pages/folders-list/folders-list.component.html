@@ -3,10 +3,7 @@
     
     <app-folder-card
     *ngFor="let folder of folders"
-    [name]="folder.name"
-    [date]="folder.date"
     [folder]="folder"
-    [notes]="folder.notes?.length || 0"
     >
     </app-folder-card>
 </div>

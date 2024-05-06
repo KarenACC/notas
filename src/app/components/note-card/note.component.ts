@@ -14,20 +14,11 @@ export class NoteComponent {
   constructor(private notesService: NotesService) {}
 
   @Input()
-  public title:string='';
-  
-  @Input()
-  public body:string= '';
-
-  @Input()
-  public date:Date = new Date;
-
-  @Input()
   public note!:Note;
 
   @Input()
   public isDeleted:boolean=false;
-
+ 
   get folders(){
     return this.notesService.folders
   }
@@ -61,9 +52,9 @@ export class NoteComponent {
     });
   }
 
-  addToFolder(folder:string){
-    console.log('agregaste esta nota a ', folder);
+  addToFolder(folder:string, note:string){
+    console.log('agregaste la nota', note, 'a', folder);
     
-  }
+  };
 
 }

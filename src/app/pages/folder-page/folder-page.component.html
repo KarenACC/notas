@@ -1,0 +1,7 @@
+ <h2>Bienvenido a la carpeta <strong> {{folder.name | titlecase}} </strong></h2>
+ <span>{{folder.date | date}}</span>
+
+ <div class="container-notes" *ngIf="folder.notes">
+    <app-note-card *ngFor="let note of folder.notes" [note]="note"></app-note-card>
+
+ </div>

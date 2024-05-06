@@ -1,11 +1,11 @@
 <mat-card>
     <mat-card-header>
-        <mat-card-title>{{  name | titlecase}}</mat-card-title>
-        <mat-card-subtitle>{{ date | date}}</mat-card-subtitle>
-        <strong>Notas: {{ notes }}</strong>
+        <mat-card-title>{{  folder.name | titlecase}}</mat-card-title>
+        <mat-card-subtitle>{{ folder.date| date}}</mat-card-subtitle>
+        <strong>Notas: {{ folder.notes?.length || 0 }}</strong>
     </mat-card-header>
     <mat-card-actions align="end">
-        <button mat-icon-button>
+        <button mat-icon-button [routerLink]="['/carpetas', folder.id]">
             <mat-icon>visibility</mat-icon>
         </button>
         <button mat-icon-button

@@ -1,0 +1,41 @@
+<div class="container-fluid">
+    <h2> {{note.title | titlecase}} </h2>
+
+    <span>{{note.date | date}}</span>
+
+    <p>{{note.body}}</p>
+
+    <mat-card-actions align="end">
+        <!-- <button mat-icon-button [routerLink]="['/notas', note.id]">
+            <mat-icon>visibility</mat-icon>
+        </button> -->
+        <button mat-icon-button *ngIf="!isDeleted"> 
+            <mat-icon>edit</mat-icon>
+        </button>
+        
+        <mat-form-field *ngIf="!isDeleted">
+            <mat-label> Agrear a </mat-label>
+            <mat-select matInput>
+                <mat-option [value]="folder.name" *ngFor="let folder of folders" (click)="addToFolder(folder.name, note.title)">{{ folder.name | titlecase}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        
+        <!-- <button mat-icon-button *ngIf="isDeleted" (click)="restore(note)">
+            <mat-icon>restore</mat-icon>
+        </button> -->
+        <!-- <button mat-icon-button style="background-color: rgb(210, 18, 18);"
+        *ngIf="isDeleted"
+        (click)="deleteForeverModal(note)">
+            <mat-icon style="color: white;">delete_forever</mat-icon>
+        </button> -->
+        <button mat-icon-button style="background-color: rgb(210, 18, 18);"
+                (click)="delete(note!)"
+                *ngIf="!isDeleted"
+                routerLink="/notas">
+            <mat-icon style="color: white;">delete</mat-icon>
+        </button>
+    </mat-card-actions>
+
+
+
+</div>

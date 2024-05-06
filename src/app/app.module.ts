@@ -26,6 +26,8 @@ import { NoteComponent } from './components/note-card/note.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { FormsModule } from '@angular/forms';
 import { FolderCardComponent } from './components/folder-card/folder-card.component';
+import { NotePageComponent } from './pages/note-page/note-page.component';
+import { FolderPageComponent } from './pages/folder-page/folder-page.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,8 @@ import { FolderCardComponent } from './components/folder-card/folder-card.compon
     NoteComponent,
     NotFoundComponent,
     FolderCardComponent,
+    NotePageComponent,
+    FolderPageComponent,
   ],
   imports: [
     BrowserModule,

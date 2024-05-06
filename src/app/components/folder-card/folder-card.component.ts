@@ -13,19 +13,10 @@ export class FolderCardComponent {
   constructor(private notesService:NotesService){}
 
   @Input()
-  public name:string='';
-
-  @Input()
-  public date:Date = new Date;
-
-  @Input()
   public folder!:Folder;
 
   @Input()
   public isDeleted:boolean=false;
-
-  @Input()
-  public notes!:number;
 
   delete(folder:Folder):void{
     folder.deleted=true;

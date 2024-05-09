@@ -22,7 +22,7 @@ const routes: Routes = [
   },
   {
     path:'carpetas',
-    component:FoldersListComponent
+    component:FoldersListComponent,
   },
   {
     path:'crear-nota',

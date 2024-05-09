@@ -19,13 +19,12 @@ export class AddFolderComponent {
     date: new Date(),
     deleted: false,
     edited: false,
-    notes: []
   }
 
   addFolder(){
     if(!this.folder.name) return;
     this.folder.id= uuidv4()
-    this.notesService.addFolder(this.folder)
+    this.notesService.addFolder(this.folder) 
     this.folder.name='';
 
     Swal.fire({

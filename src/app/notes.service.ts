@@ -3,7 +3,7 @@ import { Note } from './interfaces/note.interface';
 import { v4 as uuidv4 } from 'uuid';
 import Swal from 'sweetalert2';
 import { Folder } from './interfaces/folder.interface';
-import { Observable, of } from 'rxjs';
+import { Observable, of, switchMap, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -41,10 +41,11 @@ export class NotesService {
   }
 
   addNote(note:Note){
-    const newNote:Note = {id:uuidv4(), ...note, date:new Date()}
+    const newNote = { ...note}
     this._notes.unshift(newNote)
     this.saveToLocalStorage('notas', this._notes)
   };
+
 
   deleteOrRestore(note:Note){
     if(note.deleted===true) {      
@@ -101,7 +102,7 @@ export class NotesService {
 
   deleteForever(note:Note){
     let id= note.id
-    this._trash= this.trash.filter(note => note.id !== id)
+    this._trash= this._trash.filter(note => note.id !== id)
     this.saveToLocalStorage('eliminadas', this._trash);
   }
 
@@ -109,6 +110,31 @@ export class NotesService {
     const note = this._notes.find(note => note.id === id);
     return of (note);
   }
+
+  addNoteToFolder(folderId:string, note:Note):Observable<Folder>{
+      return this.getFolderById(folderId)
+      .pipe(
+        switchMap(folder => {
+          if (folder) {
+            if (!folder.notes) {
+              folder.notes = [];
+            }
+            const addedNote = { ...note}
+            folder.notes.unshift(addedNote);
+            const noteId= note.id;
+            this._notes = this._notes.filter(note => note.id !== noteId);
+            this.saveToLocalStorage('notas', this._notes);
+            this.saveToLocalStorage('carpetas', this._folders);
+
+            return of(folder);
+          } else {
+            return throwError("La carpeta no existe.");
+          }
+        })
+      );
+  }
+  
+
   // 
   //
   //  

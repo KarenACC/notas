@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Note } from '../../interfaces/note.interface';
 import { NotesService } from '../../notes.service';
 import Swal from 'sweetalert2';
@@ -9,19 +9,26 @@ import { Folder } from '../../interfaces/folder.interface';
   templateUrl: './note.component.html',
   styleUrl: './note.component.css'
 })
-export class NoteComponent {
+export class NoteComponent implements OnInit {
 
   constructor(private notesService: NotesService) {}
-
+  
+  
+  ngOnInit(): void {
+    this._folders = this.notesService.folders;
+  }
+  
   @Input()
   public note!:Note;
-
+  
   @Input()
   public isDeleted:boolean=false;
- 
+  
   get folders(){
     return this.notesService.folders
   }
+  private _folders: Folder[] = [];
+
 
   delete(note:Note):void{
     note.deleted=true;
@@ -52,9 +59,13 @@ export class NoteComponent {
     });
   }
 
-  addToFolder(folder:string, note:string){
-    console.log('agregaste la nota', note, 'a', folder);
-    
-  };
+  addNoteToFolder(folder:Folder, note:Note){
+    console.log('agregaste la nota a la carpeta', folder.name);
+    this.notesService.addNoteToFolder(folder.id, note).subscribe()
+  }
+
+
+  
+  
 
 }

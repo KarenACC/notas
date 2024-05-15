@@ -1,9 +1,20 @@
- <h2>Bienvenido a la carpeta <strong> {{folder.name | titlecase}} </strong></h2>
- <span>{{folder.date | date}}</span>
+ <h2>
+   Bienvenido a la carpeta 
+   <mat-form-field>
+      <input matInput [(ngModel)]="folder.name" 
+      style="font-weight: bold;"
+      #titleInput> 
+     </mat-form-field>
+
+</h2>
 
  <app-empty-alert *ngIf="folder.notes?.length===0"></app-empty-alert>
 
  <div class="container-notes" *ngIf="folder.notes">
     <app-note-card *ngFor="let note of folder.notes" [note]="note"></app-note-card>
 
- </div>
+ </div> 
+
+ <button type="submit" mat-raised-button style="height: 50px; margin-right: 5px;"
+ (click)="updateFolder()">Guardar
+</button>

@@ -21,7 +21,7 @@ export class NotePageComponent implements OnInit{
   public note!:Note;
   public selectedFolderId?:string;
   public isDeleted:boolean=false;
-  public get folders(){
+  public get folders(){ 
     return this.notesService.folders
   }
 

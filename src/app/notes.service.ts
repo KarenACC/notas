@@ -171,7 +171,6 @@ export class NotesService {
   
 
   editNote(note:Note):void{
-    if(note.edited === true){
       let id= note.id;
       let noteToEdit = this._notes.find(element => element.id === id);
       if(noteToEdit){
@@ -190,8 +189,6 @@ export class NotesService {
           }
         }
       }
-    };
- 
   };
   
   
@@ -254,6 +251,16 @@ export class NotesService {
     }
     return of (undefined)
   };
+
+  editFolder(folder:Folder){
+    let id = folder.id;
+    let folderToEdit = this.folders.find(element => element.id === id);
+    if(folderToEdit){
+      folderToEdit = folder;
+      this.saveToLocalStorage('carpetas', this._folders);
+      return;
+    }
+  }
 
   public saveToLocalStorage(key: string, notes: any[]): void {
     localStorage.setItem(key, JSON.stringify(notes));

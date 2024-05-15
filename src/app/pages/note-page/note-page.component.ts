@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Note } from '../../interfaces/note.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotesService } from '../../notes.service';
+import { Folder } from '../../interfaces/folder.interface';
+import Swal from 'sweetalert2';
+import { NgModel } from '@angular/forms';
 
 @Component({
   selector: 'app-note-page',
@@ -17,10 +20,14 @@ export class NotePageComponent implements OnInit{
   ){}
   
   public note!:Note;
+  public selectedFolderId?:string;
   public isDeleted:boolean=false;
   public get folders(){
     return this.notesService.folders
   }
+
+  @ViewChild('titleInput') titleInput!: NgModel;
+  @ViewChild('bodyInput') bodyInput!: NgModel;
   
   ngOnInit(): void {
     this.activatedRoute.params
@@ -31,18 +38,62 @@ export class NotePageComponent implements OnInit{
           return this.router.navigateByUrl('');
         }
         this.note= note;
+        this.resetInputPristine();
         return;
       })
     } )
-  }
+  };
 
   delete(note:Note):void{
+    
     note.deleted=true;
     this.notesService.deleteOrRestore(note);
+  }; 
+
+  selectFolder(folderId:string){
+    this.selectedFolderId=folderId;
+    console.log('seleccionaste la carpeta', folderId);
+   };
+
+   resetInputPristine(): void {
+    if (this.titleInput) {
+      this.titleInput.control.markAsPristine();
+    }
+    if (this.bodyInput) {
+      this.bodyInput.control.markAsPristine();
+    }
   };
 
-  addToFolder(folder:string, note:string){
-    console.log('agregaste la nota', note, 'a', folder);
-    
-  };
+  updateNote(){
+    if(this.note.title!.length=== 0 || this.note.body!.length===0)  return;
+
+    this.note.edited=true;
+    console.log('estás editando la nota', this.note);
+    if(this.selectedFolderId !== this.note.folderId){
+      console.log('moverás la nota a una nueva carpeta');
+      console.log('el id del folder de la nota', this.note.folderId, '/', 'el id de la carpeta', this.selectedFolderId);
+      
+      this.notesService.addNoteToFolder(this.selectedFolderId!, this.note).subscribe( ()=> {
+        this.notesService.editNote(this.note);
+        this.showSuccessAlert();
+      })
+    } else{
+      console.log('estás en la misma carpeta');
+      console.log('el id del folder de la nota', this.note.folderId, '/', 'el id de la carpeta', this.selectedFolderId);
+      
+      this.notesService.editNote(this.note);
+      this.showSuccessAlert();
+      
+    }
+   };
+
+   showSuccessAlert(){
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Nota guardada",
+      showConfirmButton: false,
+      timer: 1500 
+    });
+   }
 }

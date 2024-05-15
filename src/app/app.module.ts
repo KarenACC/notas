@@ -28,6 +28,7 @@ import { FormsModule } from '@angular/forms';
 import { FolderCardComponent } from './components/folder-card/folder-card.component';
 import { NotePageComponent } from './pages/note-page/note-page.component';
 import { FolderPageComponent } from './pages/folder-page/folder-page.component';
+import { EmptyAlertComponent } from './components/empty-alert/empty-alert.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { FolderPageComponent } from './pages/folder-page/folder-page.component';
     FolderCardComponent,
     NotePageComponent,
     FolderPageComponent,
+    EmptyAlertComponent,
   ],
   imports: [
     BrowserModule,

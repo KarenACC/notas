@@ -6,23 +6,11 @@
     <mat-card-content class="content">
         {{note.body}}
     </mat-card-content>
+    
     <mat-card-actions align="end">
         <button mat-icon-button [routerLink]="['/notas', note.id]">
             <mat-icon>visibility</mat-icon>
         </button>
-        <button mat-icon-button *ngIf="!isDeleted"> 
-            <mat-icon>edit</mat-icon>
-        </button>
-        
-        <mat-form-field *ngIf="!isDeleted">
-            <mat-label> Agrear a </mat-label>
-            <mat-select matInput>
-                <mat-option [value]="folder.name" *ngFor="let folder of folders"
-                            (click)="addNoteToFolder(folder, note)">
-                    {{ folder.name | titlecase}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
         
         <button mat-icon-button *ngIf="isDeleted" (click)="restore(note)">
             <mat-icon>restore</mat-icon>
@@ -39,4 +27,3 @@
         </button>
     </mat-card-actions>
 </mat-card>
-<!-- Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis accusantium, enim sit, dolore perspiciatis similique voluptates provident dignissimos ipsam hic est nulla aliquam quaerat quia suscipit, amet dolor asperiores porro. -->

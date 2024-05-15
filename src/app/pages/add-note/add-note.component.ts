@@ -48,7 +48,7 @@ export class AddNoteComponent implements AfterViewInit {
     this.note.title= '';
     this.note.body='';
 
-    Swal.fire({
+    Swal.fire({ 
       position: "top-end",
       icon: "success",
       title: "Nota guardada",

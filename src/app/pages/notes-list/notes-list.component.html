@@ -1,5 +1,7 @@
 <h2>Tus Notas</h2>
 <div class="container">
+
+    <app-empty-alert *ngIf="list.length===0"></app-empty-alert>
     
     <app-note-card
     *ngFor="let note of list"

@@ -47,23 +47,26 @@ export class NotesService {
   };
 
 
-  deleteOrRestore(note:Note){
-    if(note.deleted===true) {      
-      let id= note.id;
-      let copyNotesArray= this._notes.filter(note => note.id !== id)
+  deleteOrRestore(note: Note): void {
+    if (note.deleted === true) {
+      let id = note.id;
+      let copyNotesArray = this._notes.filter(note => note.id !== id);
       this._notes = copyNotesArray;
-      
-      this._trash.unshift(note)
-      
+      this._trash.unshift(note);
       this.saveToLocalStorage('eliminadas', this._trash);
       this.saveToLocalStorage('notas', this._notes);
-
       Swal.fire('La nota ha sido movida a la papelera.');
-
-    } else{
       
+      // Eliminar la nota de la carpeta si está dentro de una
+      for (const folder of this._folders) {
+        if (folder.notes) {
+          folder.notes = folder.notes.filter(note => note.id !== id);
+        }
+      }
+      this.saveToLocalStorage('carpetas', this._folders);
+    } else {
       let id = note.id;
-      let copyDeletedArray= this._trash.filter(note => note.id !== id)
+      let copyDeletedArray = this._trash.filter(note => note.id !== id);
       this._trash = copyDeletedArray;
       this._notes.unshift(note);
       this.saveToLocalStorage('eliminadas', this._trash);
@@ -71,6 +74,7 @@ export class NotesService {
       Swal.fire('Recuperaste esta nota.');
     }
   }
+  
 
   clearTrash(): void {
     if(this._trash.length===0 && this._foldersTrash.length=== 0) return;
@@ -107,32 +111,81 @@ export class NotesService {
   }
 
   getNoteById(id:string):Observable<Note | undefined>{
-    const note = this._notes.find(note => note.id === id);
-    return of (note);
-  }
+    let note = this._notes.find(note => note.id === id);
+    if (note){
+      return of (note);
+    }
 
-  addNoteToFolder(folderId:string, note:Note):Observable<Folder>{
-      return this.getFolderById(folderId)
-      .pipe(
-        switchMap(folder => {
-          if (folder) {
-            if (!folder.notes) {
-              folder.notes = [];
-            }
-            const addedNote = { ...note}
-            folder.notes.unshift(addedNote);
-            const noteId= note.id;
-            this._notes = this._notes.filter(note => note.id !== noteId);
-            this.saveToLocalStorage('notas', this._notes);
-            this.saveToLocalStorage('carpetas', this._folders);
+    for (const folder of this._folders){
+      if (folder.notes){
+        note = folder.notes.find(note => note.id === id);
+        if(note){
+          return of(note)
+        }
+      }
+    }
 
-            return of(folder);
-          } else {
-            return throwError("La carpeta no existe.");
+    return of(undefined)
+  };
+
+  addNoteToFolder(folderId: string, note: Note): Observable<Folder> {
+    return this.getFolderById(folderId).pipe(
+      switchMap(folder => {
+        if (folder) {
+          if (!folder.notes) {
+            folder.notes = [];
           }
-        })
-      );
-  }
+  
+          // Eliminar la nota de la carpeta actual
+          const noteId = note.id;
+          this._notes = this._notes.filter(n => n.id !== noteId);
+          for (const f of this._folders) {
+            if (f.notes) {
+              f.notes = f.notes.filter(n => n.id !== noteId);
+            }
+          }
+  
+          // Agregar la nota a la nueva carpeta
+          const addedNote = { ...note };
+          folder.notes.unshift(addedNote);
+          
+          // Guardar los cambios
+          this.saveToLocalStorage('notas', this._notes);
+          this.saveToLocalStorage('carpetas', this._folders);
+  
+          return of(folder);
+        } else {
+          return throwError("La carpeta no existe.");
+        }
+      })
+    );
+  };
+  
+
+  editNote(note:Note):void{
+    if(note.edited === true){
+      let id= note.id;
+      let noteToEdit = this._notes.find(element => element.id === id);
+      if(noteToEdit){
+        noteToEdit = note;
+        this.saveToLocalStorage('notas', this._notes);
+        return;
+      }
+
+      for (const folder of this._folders) {
+        if (folder.notes) {
+          noteToEdit = folder.notes.find(element => element.id === id);
+          if(noteToEdit){
+            noteToEdit = note;
+            this.saveToLocalStorage('carpetas', this._folders)
+            return;
+          }
+        }
+      }
+    };
+ 
+  };
+  
   
 
   // 

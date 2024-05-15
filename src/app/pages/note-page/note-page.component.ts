@@ -2,7 +2,6 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Note } from '../../interfaces/note.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotesService } from '../../notes.service';
-import { Folder } from '../../interfaces/folder.interface';
 import Swal from 'sweetalert2';
 import { NgModel } from '@angular/forms';
 
@@ -28,7 +27,7 @@ export class NotePageComponent implements OnInit{
 
   @ViewChild('titleInput') titleInput!: NgModel;
   @ViewChild('bodyInput') bodyInput!: NgModel;
-  
+   
   ngOnInit(): void {
     this.activatedRoute.params
     .subscribe( (params)=>{
@@ -68,18 +67,13 @@ export class NotePageComponent implements OnInit{
     if(this.note.title!.length=== 0 || this.note.body!.length===0)  return;
 
     this.note.edited=true;
-    console.log('estás editando la nota', this.note);
     if(this.selectedFolderId !== this.note.folderId){
-      console.log('moverás la nota a una nueva carpeta');
-      console.log('el id del folder de la nota', this.note.folderId, '/', 'el id de la carpeta', this.selectedFolderId);
       
       this.notesService.addNoteToFolder(this.selectedFolderId!, this.note).subscribe( ()=> {
         this.notesService.editNote(this.note);
         this.showSuccessAlert();
       })
     } else{
-      console.log('estás en la misma carpeta');
-      console.log('el id del folder de la nota', this.note.folderId, '/', 'el id de la carpeta', this.selectedFolderId);
       
       this.notesService.editNote(this.note);
       this.showSuccessAlert();

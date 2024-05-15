@@ -36,8 +36,7 @@ export class NotesService {
     this._trash = this.getFromLocalStorage('eliminadas') || [];
     this._folders = this.getFromLocalStorage('carpetas') || [];
     this._foldersTrash = this.getFromLocalStorage ('carpetas_eliminadas') || [];
-    this.clearTrash()
-
+    this.clearTrash();
   }
 
   addNote(note:Note){
@@ -112,8 +111,9 @@ export class NotesService {
 
   getNoteById(id:string):Observable<Note | undefined>{
     let note = this._notes.find(note => note.id === id);
-    if (note){
-      return of (note);
+    let deletedNote = this._trash.find(note => note.id === id);
+    if (note || deletedNote){
+      return of (note || deletedNote);
     }
 
     for (const folder of this._folders){
@@ -121,6 +121,15 @@ export class NotesService {
         note = folder.notes.find(note => note.id === id);
         if(note){
           return of(note)
+        }
+      }
+    }
+
+    for (const folder of this._foldersTrash){
+      if(folder.notes){
+        note= folder.notes.find(note => note.id === id);
+        if(note){
+          return of (note);
         }
       }
     }
@@ -148,8 +157,7 @@ export class NotesService {
           // Agregar la nota a la nueva carpeta
           const addedNote = { ...note };
           folder.notes.unshift(addedNote);
-          
-          // Guardar los cambios
+
           this.saveToLocalStorage('notas', this._notes);
           this.saveToLocalStorage('carpetas', this._folders);
   
@@ -240,10 +248,12 @@ export class NotesService {
 
   getFolderById(id:string):Observable<Folder | undefined>{
     const folder = this._folders.find(folder => folder.id === id);
-    return of (folder);
-  }
-
-  
+    const deletedFolder = this._foldersTrash.find(folder => folder.id === id);
+    if( folder || deletedFolder){
+       return of (folder || deletedFolder);
+    }
+    return of (undefined)
+  };
 
   public saveToLocalStorage(key: string, notes: any[]): void {
     localStorage.setItem(key, JSON.stringify(notes));

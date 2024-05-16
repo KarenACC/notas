@@ -15,6 +15,14 @@
 
  </div> 
 
- <button type="submit" mat-raised-button style="height: 50px; margin-right: 5px;"
- (click)="updateFolder()">Guardar
+ <button type="submit" mat-raised-button
+ (click)="updateFolder()"
+ *ngIf="!folder.deleted">
+   Guardar
+</button>
+
+<button mat-icon-button style="background-color: rgb(210, 18, 18);"
+*ngIf="folder.deleted"
+(click)="deleteForeverModal(folder)">
+    <mat-icon style="color: white;">delete_forever</mat-icon>
 </button>

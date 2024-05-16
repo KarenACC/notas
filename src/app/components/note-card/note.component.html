@@ -1,5 +1,5 @@
-<mat-card>
-    <mat-card-header>
+<mat-card >
+    <mat-card-header [routerLink]="['/notas', note.id]">
         <mat-card-title>{{  note.title| titlecase}}</mat-card-title>
         <mat-card-subtitle>{{ note.date | date}}</mat-card-subtitle>
     </mat-card-header>
@@ -8,9 +8,6 @@
     </mat-card-content>
     
     <mat-card-actions align="end">
-        <button mat-icon-button [routerLink]="['/notas', note.id]">
-            <mat-icon>visibility</mat-icon>
-        </button>
         
         <button mat-icon-button *ngIf="isDeleted" (click)="restore(note)">
             <mat-icon>restore</mat-icon>
@@ -21,7 +18,7 @@
             <mat-icon style="color: white;">delete_forever</mat-icon>
         </button>
         <button mat-icon-button style="background-color: rgb(210, 18, 18);"
-                (click)="delete(note)"
+                (click)="deleteModal(note)"
                 *ngIf="!isDeleted">
             <mat-icon style="color: white;">delete</mat-icon>
         </button>

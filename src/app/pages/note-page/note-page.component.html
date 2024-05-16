@@ -10,7 +10,7 @@
             </textarea>
         
 
-          <mat-form-field>
+          <mat-form-field *ngIf="!note.deleted">
             <mat-label>Agregar a </mat-label>
             <mat-select matInput>
               <mat-option [value]="folder.name" *ngFor="let folder of folders"
@@ -20,17 +20,25 @@
             </mat-option>
             </mat-select>
           </mat-form-field>
-    
+     
           
           <mat-card-actions class="actions">
             <button type="submit" mat-raised-button style="height: 50px; margin-right: 5px;"
-                    (click)="updateNote()">Guardar
+                    (click)="updateNote()"
+                    *ngIf="!note.deleted">
+                    Guardar
             </button>
               
             <button mat-icon-button style="background-color: rgb(210, 18, 18);"
-            (click)="delete(note)"
-            routerLink="/notas">
+            (click)="deleteModal(note)"
+            *ngIf="!note.deleted">
                 <mat-icon style="color: white;">delete</mat-icon>
+            </button>
+
+            <button mat-icon-button style="background-color: rgb(210, 18, 18);"
+            *ngIf="note.deleted"
+            (click)="deleteForeverModal(note)">
+                <mat-icon style="color: white;">delete_forever</mat-icon>
             </button>
         </mat-card-actions>
 </div> 

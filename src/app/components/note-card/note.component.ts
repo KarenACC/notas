@@ -3,6 +3,7 @@ import { Note } from '../../interfaces/note.interface';
 import { NotesService } from '../../notes.service';
 import Swal from 'sweetalert2';
 import { Folder } from '../../interfaces/folder.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-note-card',
@@ -11,7 +12,10 @@ import { Folder } from '../../interfaces/folder.interface';
 })
 export class NoteComponent implements OnInit {
 
-  constructor(private notesService: NotesService) {}
+  constructor(
+    private notesService: NotesService,
+    private router:Router,
+  ) {}
   
   
   ngOnInit(): void {
@@ -30,9 +34,25 @@ export class NoteComponent implements OnInit {
   private _folders: Folder[] = [];
 
 
-  delete(note:Note):void{
+  deleteModal(note:Note){
     note.deleted=true;
-    this.notesService.deleteOrRestore(note);
+    Swal.fire({
+      title: "¿Enviar a papelera?",
+      showConfirmButton: false,
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Save",
+      denyButtonText: `Eliminar`,
+      cancelButtonText: "Cancelar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Saved!", "", "success");
+      } else if (result.isDenied) {
+        this.notesService.deleteOrRestore(note)
+        Swal.fire("Nota enviada la papelera", "", "warning");
+        this.router.navigate(['/notas'])
+      }
+    });
   }
 
   restore(note:Note){

@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import Swal from 'sweetalert2';
 import { Folder } from '../../interfaces/folder.interface';
 import { NotesService } from '../../notes.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-folder-card',
@@ -10,7 +11,9 @@ import { NotesService } from '../../notes.service';
 })
 export class FolderCardComponent {
 
-  constructor(private notesService:NotesService){}
+  constructor(
+    private notesService:NotesService,
+    private router:Router){}
 
   @Input()
   public folder!:Folder;
@@ -18,9 +21,25 @@ export class FolderCardComponent {
   @Input()
   public isDeleted:boolean=false;
 
-  delete(folder:Folder):void{
+  deleteModal(folder:Folder){
     folder.deleted=true;
-    this.notesService.deleteOrRestoreFolder(folder);
+    Swal.fire({
+      title: "¿Enviar a papelera?",
+      showConfirmButton: false,
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Save",
+      denyButtonText: `Eliminar`,
+      cancelButtonText: "Cancelar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Saved!", "", "success");
+      } else if (result.isDenied) {
+        this.notesService.deleteOrRestoreFolder(folder)
+        Swal.fire("Nota enviada la papelera", "", "warning");
+        this.router.navigate(['/carpetas'])
+      }
+    });
   }
 
   restore(folder:Folder){

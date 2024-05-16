@@ -48,24 +48,25 @@ export class FolderPageComponent implements OnInit{
     
   }
 
-
-  // updateNote(){
-  //   if(this.note.title!.length=== 0 || this.note.body!.length===0)  return;
-
-  //   this.note.edited=true;
-  //   if(this.selectedFolderId !== this.note.folderId){
-      
-  //     this.notesService.addNoteToFolder(this.selectedFolderId!, this.note).subscribe( ()=> {
-  //       this.notesService.editNote(this.note);
-  //       this.showSuccessAlert();
-  //     })
-  //   } else{
-      
-  //     this.notesService.editNote(this.note);
-  //     this.showSuccessAlert();
-      
-  //   }
-  //  };
+  deleteForeverModal(folder:Folder){
+    Swal.fire({
+      title: "¿Eliminar permanentemente?",
+      showConfirmButton: false,
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Save",
+      denyButtonText: `Eliminar`,
+      cancelButtonText: "Cancelar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Saved!", "", "success");
+      } else if (result.isDenied) {
+        this.notesService.deleteForeverFolder(folder)
+        Swal.fire("Carpeta eliminada de la papelera", "", "warning");
+        this.router.navigate(['/papelera'])
+      }
+    });
+  }
 
 
 }

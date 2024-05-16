@@ -25,8 +25,8 @@ export class NotePageComponent implements OnInit{
     return this.notesService.folders
   }
 
-  @ViewChild('titleInput') titleInput!: NgModel;
-  @ViewChild('bodyInput') bodyInput!: NgModel;
+  // @ViewChild('titleInput') titleInput!: NgModel;
+  // @ViewChild('bodyInput') bodyInput!: NgModel;
    
   ngOnInit(): void {
     this.activatedRoute.params
@@ -37,31 +37,46 @@ export class NotePageComponent implements OnInit{
           return this.router.navigateByUrl('');
         }
         this.note= note;
-        this.resetInputPristine();
+        // this.resetInputPristine();
         return;
       })
     } )
-  };
-
-  delete(note:Note):void{
-    
-    note.deleted=true;
-    this.notesService.deleteOrRestore(note);
   }; 
+
+  deleteModal(note:Note){
+    Swal.fire({
+      title: "¿Enviar a papelera?",
+      showConfirmButton: false,
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Save",
+      denyButtonText: `Eliminar`,
+      cancelButtonText: "Cancelar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Saved!", "", "success");
+      } else if (result.isDenied) {
+        note.deleted=true;
+        this.notesService.deleteOrRestore(note)
+        Swal.fire("Nota enviada la papelera", "", "warning");
+        this.router.navigate(['/notas'])
+      }
+    });
+  }
 
   selectFolder(folderId:string){
     this.selectedFolderId=folderId;
     console.log('seleccionaste la carpeta', folderId);
    };
 
-   resetInputPristine(): void {
-    if (this.titleInput) {
-      this.titleInput.control.markAsPristine();
-    }
-    if (this.bodyInput) {
-      this.bodyInput.control.markAsPristine();
-    }
-  };
+  //  resetInputPristine(): void {
+  //   if (this.titleInput) {
+  //     this.titleInput.control.markAsPristine();
+  //   }
+  //   if (this.bodyInput) {
+  //     this.bodyInput.control.markAsPristine();
+  //   }
+  // };
 
   updateNote(){
     if(this.note.title!.length=== 0 || this.note.body!.length===0)  return;
@@ -89,5 +104,25 @@ export class NotePageComponent implements OnInit{
       showConfirmButton: false,
       timer: 1500 
     });
-   }
+   };
+
+   deleteForeverModal(note:Note){
+    Swal.fire({
+      title: "¿Eliminar permanentemente?",
+      showConfirmButton: false,
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Save",
+      denyButtonText: `Eliminar`,
+      cancelButtonText: "Cancelar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Saved!", "", "success");
+      } else if (result.isDenied) {
+        this.notesService.deleteForever(note)
+        Swal.fire("Nota eliminada de la papelera", "", "warning");
+        this.router.navigate(['/papelera'])
+      }
+    });
+  }
 }

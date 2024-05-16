@@ -1,0 +1,10 @@
+.container-notes{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+button{
+    position: fixed;
+    bottom: 50px;
+}

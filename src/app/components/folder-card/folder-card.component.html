@@ -1,17 +1,10 @@
 <mat-card>
-    <mat-card-header>
+    <mat-card-header [routerLink]="['/carpetas', folder.id]">
         <mat-card-title>{{  folder.name | titlecase}}</mat-card-title>
         <mat-card-subtitle>{{ folder.date| date}}</mat-card-subtitle>
         <strong>Notas: {{ folder.notes?.length || 0 }}</strong>
     </mat-card-header>
     <mat-card-actions align="end">
-        <button mat-icon-button [routerLink]="['/carpetas', folder.id]">
-            <mat-icon>visibility</mat-icon>
-        </button>
-        <button mat-icon-button
-        *ngIf="!isDeleted">
-            <mat-icon>edit</mat-icon>
-        </button>
         <button mat-icon-button
         *ngIf="!isDeleted">
             <mat-icon>add</mat-icon>
@@ -27,7 +20,7 @@
             <mat-icon style="color: white;">delete_forever</mat-icon>
         </button>
         <button mat-icon-button style="background-color: rgb(210, 18, 18);"
-                (click)="delete(folder)"
+                (click)="deleteModal(folder)"
                 *ngIf="!isDeleted">
             <mat-icon style="color: white;">delete</mat-icon>
         </button>

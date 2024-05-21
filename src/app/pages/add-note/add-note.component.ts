@@ -41,8 +41,9 @@ export class AddNoteComponent implements AfterViewInit {
 
     if(this.selectedFolderId){
       this.notesService.addNoteToFolder(this.selectedFolderId!, this.note).subscribe();
+      
     } else {
-      this.notesService.addNote(this.note)
+      this.notesService.addNote(this.note);
     }
 
     this.note.title= '';
@@ -58,7 +59,7 @@ export class AddNoteComponent implements AfterViewInit {
   }
 
   selectFolder(folderId:string){
-    this.selectedFolderId=folderId;
+    this.selectedFolderId=folderId; 
    }
 
 }

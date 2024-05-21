@@ -37,6 +37,8 @@ export class NotePageComponent implements OnInit{
           return this.router.navigateByUrl('');
         }
         this.note= note;
+        console.log(note);
+        
         // this.resetInputPristine();
         return;
       })
@@ -66,33 +68,23 @@ export class NotePageComponent implements OnInit{
 
   selectFolder(folderId:string){
     this.selectedFolderId=folderId;
-    console.log('seleccionaste la carpeta', folderId);
+    console.log('seleccionaste la carpeta', folderId);  
    };
-
-  //  resetInputPristine(): void {
-  //   if (this.titleInput) {
-  //     this.titleInput.control.markAsPristine();
-  //   }
-  //   if (this.bodyInput) {
-  //     this.bodyInput.control.markAsPristine();
-  //   }
-  // };
 
   updateNote(){
     if(this.note.title!.length=== 0 || this.note.body!.length===0)  return;
 
     this.note.edited=true;
     if(this.selectedFolderId !== this.note.folderId){
+      console.log('se va a una nueva carpeta');
       
       this.notesService.addNoteToFolder(this.selectedFolderId!, this.note).subscribe( ()=> {
         this.notesService.editNote(this.note);
         this.showSuccessAlert();
       })
     } else{
-      
       this.notesService.editNote(this.note);
-      this.showSuccessAlert();
-      
+      this.showSuccessAlert(); 
     }
    };
 

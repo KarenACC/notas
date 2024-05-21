@@ -1,28 +1,41 @@
- <h2>
-   Bienvenido a la carpeta 
-   <mat-form-field>
-      <input matInput [(ngModel)]="folder.name" 
-      style="font-weight: bold;"
-      #titleInput> 
-     </mat-form-field>
+ <div class="container">
 
-</h2>
-
- <app-empty-alert *ngIf="folder.notes?.length===0"></app-empty-alert>
-
- <div class="container-notes" *ngIf="folder.notes">
-    <app-note-card *ngFor="let note of folder.notes" [note]="note"></app-note-card>
-
- </div> 
-
- <button type="submit" mat-raised-button
- (click)="updateFolder()"
- *ngIf="!folder.deleted">
-   Guardar
-</button>
-
-<button mat-icon-button style="background-color: rgb(210, 18, 18);"
-*ngIf="folder.deleted"
-(click)="deleteForeverModal(folder)">
-    <mat-icon style="color: white;">delete_forever</mat-icon>
-</button>
+    <h2>
+      Bienvenido a la carpeta 
+      <mat-form-field>
+         <input matInput [(ngModel)]="folder.name" 
+         style="font-weight: bold;"
+         #titleInput> 
+        </mat-form-field>
+   
+   </h2>
+   
+    <app-empty-alert *ngIf="!folder.notes || folder.notes.length===0"></app-empty-alert>
+   
+    <div class="container-notes">
+       <app-note-card *ngFor="let note of folder.notes" [note]="note"></app-note-card>
+   
+       
+        
+      </div> 
+      
+      <div class="actions">
+        <button type="submit" mat-raised-button style="height: 45px; margin-right: 5px;"
+                (click)="updateFolder()"
+                *ngIf="!folder.deleted">
+                Guardar
+        </button>
+          
+        <button mat-icon-button style="background-color: rgb(210, 18, 18);"
+        (click)="deleteModal(folder)"
+        *ngIf="!folder.deleted">
+            <mat-icon style="color: white;">delete</mat-icon>
+        </button>
+     
+        <button mat-icon-button style="background-color: rgb(210, 18, 18);"
+        *ngIf="folder.deleted"
+        (click)="deleteForeverModal(folder)">
+            <mat-icon style="color: white;">delete_forever</mat-icon>
+        </button>
+     </div>
+ </div>

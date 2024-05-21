@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import Swal from 'sweetalert2';
 import { Folder } from './interfaces/folder.interface';
 import { Observable, of, switchMap, throwError } from 'rxjs';
+import { _DisposeViewRepeaterStrategy } from '@angular/cdk/collections';
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +42,8 @@ export class NotesService {
 
   addNote(note:Note){
     const newNote = { ...note}
+    console.log('nota a agregar:', newNote);
+    
     this._notes.unshift(newNote)
     this.saveToLocalStorage('notas', this._notes)
   };
@@ -72,35 +75,6 @@ export class NotesService {
       this.saveToLocalStorage('notas', this._notes);
       Swal.fire('Recuperaste esta nota.');
     }
-  }
-  
-
-  clearTrash(): void {
-    if(this._trash.length===0 && this._foldersTrash.length=== 0) return;
-    const limiteDias = 15;
-    const fechaLimite = new Date();
-    fechaLimite.setDate(fechaLimite.getDate() - limiteDias);
-  
-    this._trash = this._trash.filter(note => {
-      if (note.date) {
-        const fechaEliminacion = new Date(note.date);
-        return fechaEliminacion >= fechaLimite;
-      } else {
-        return false; 
-      }
-    });
-
-    this._foldersTrash = this._foldersTrash.filter(folder => {
-      if (folder.date) {
-        const fechaEliminacion = new Date(folder.date);
-        return fechaEliminacion >= fechaLimite;
-      } else {
-        return false; 
-      }
-    });
-  
-    this.saveToLocalStorage('eliminadas', this._trash);
-    this.saveToLocalStorage('carpetas_eliminadas', this._foldersTrash);
   }
 
   deleteForever(note:Note){
@@ -138,7 +112,8 @@ export class NotesService {
   };
 
   addNoteToFolder(folderId: string, note: Note): Observable<Folder> {
-    return this.getFolderById(folderId).pipe(
+    return this.getFolderById(folderId)
+    .pipe(
       switchMap(folder => {
         if (folder) {
           if (!folder.notes) {
@@ -157,6 +132,12 @@ export class NotesService {
           // Agregar la nota a la nueva carpeta
           const addedNote = { ...note };
           folder.notes.unshift(addedNote);
+          if(folderId==='notas'){
+            this._notes.unshift(addedNote);
+            console.log(this._notes);
+            this.saveToLocalStorage('notas', this._notes)
+            
+          } 
 
           this.saveToLocalStorage('notas', this._notes);
           this.saveToLocalStorage('carpetas', this._folders);
@@ -169,7 +150,6 @@ export class NotesService {
     );
   };
   
-
   editNote(note:Note):void{
       let id= note.id;
       let noteToEdit = this._notes.find(element => element.id === id);
@@ -190,6 +170,35 @@ export class NotesService {
         }
       }
   };
+
+  
+  clearTrash(): void {
+    if(this._trash.length===0 && this._foldersTrash.length=== 0) return;
+    const limiteDias = 15;
+    const fechaLimite = new Date();
+    fechaLimite.setDate(fechaLimite.getDate() - limiteDias);
+  
+    this._trash = this._trash.filter(note => {
+      if (note.date) {
+        const fechaEliminacion = new Date(note.date);
+        return fechaEliminacion >= fechaLimite;
+      } else {
+        return false; 
+      }
+    });
+
+    this._foldersTrash = this._foldersTrash.filter(folder => {
+      if (folder.date) {
+        const fechaEliminacion = new Date(folder.date);
+        return fechaEliminacion >= fechaLimite;
+      } else {
+        return false; 
+      }
+    });
+  
+    this.saveToLocalStorage('eliminadas', this._trash);
+    this.saveToLocalStorage('carpetas_eliminadas', this._foldersTrash);
+  }
   
   
 
@@ -211,9 +220,10 @@ export class NotesService {
   }
 
   deleteOrRestoreFolder(folder:Folder){
-    if(folder.deleted===true) {      
+    folder.notes?.forEach(note => note.deleted = folder.deleted)
+    if(folder.deleted===true) {  
       let id= folder.id;
-      let copyFoldersArray= this._folders.filter(note => note.id !== id)
+      let copyFoldersArray= this._folders.filter(folder => folder.id !== id)
       this._folders = copyFoldersArray;
       
       this._foldersTrash.unshift(folder)
@@ -228,7 +238,7 @@ export class NotesService {
     } else{
       
       let id = folder.id;
-      let copyDeletedArray= this._foldersTrash.filter(note => note.id !== id)
+      let copyDeletedArray= this._foldersTrash.filter(folder => folder.id !== id)
       this._foldersTrash = copyDeletedArray;
       this._folders.unshift(folder);
       this.saveToLocalStorage('carpetas_eliminadas', this._foldersTrash);
@@ -243,13 +253,21 @@ export class NotesService {
     this.saveToLocalStorage('carpetas_eliminadas', this._foldersTrash);
   };
 
-  getFolderById(id:string):Observable<Folder | undefined>{
+  getFolderById(id:string):Observable<Folder |  undefined>{
     const folder = this._folders.find(folder => folder.id === id);
     const deletedFolder = this._foldersTrash.find(folder => folder.id === id);
+    const mainNotes: Folder = {
+      name: '',
+      id: 'notas',
+      date: new Date,
+      deleted: false,
+      edited: false,
+      notes: this._notes
+    }
     if( folder || deletedFolder){
        return of (folder || deletedFolder);
     }
-    return of (undefined)
+    return of (mainNotes);
   };
 
   editFolder(folder:Folder){

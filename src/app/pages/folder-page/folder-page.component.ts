@@ -46,6 +46,27 @@ export class FolderPageComponent implements OnInit{
       timer: 1500 
     });
     
+  };
+
+  deleteModal(folder:Folder){
+    Swal.fire({
+      title: "¿Enviar a papelera?",
+      showConfirmButton: false,
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Save",
+      denyButtonText: `Eliminar`,
+      cancelButtonText: "Cancelar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Saved!", "", "success");
+      } else if (result.isDenied) {
+        folder.deleted=true;
+        this.notesService.deleteOrRestoreFolder(folder)
+        Swal.fire("Carpeta enviada la papelera", "", "warning");
+        this.router.navigate(['/carpetas'])
+      }
+    });
   }
 
   deleteForeverModal(folder:Folder){

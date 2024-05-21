@@ -1,7 +1,7 @@
 <h2>Tus Carpetas</h2>
+<app-empty-alert *ngIf="folders.length===0"></app-empty-alert>
 <div class="container">
 
-    <app-empty-alert *ngIf="folders.length===0"></app-empty-alert>
     
     <app-folder-card
     *ngFor="let folder of folders"

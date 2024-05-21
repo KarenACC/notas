@@ -8,29 +8,29 @@
 
 <mat-sidenav-container>
   <mat-sidenav #sidenav="matSidenav">
-    <button mat-button class="menu-button" routerLink="/notas">
+    <button mat-button class="menu-button" routerLink="/notas" routerLinkActive="active">
       <mat-icon>bookmark</mat-icon>
       <span>Tus notas</span>
     </button>
 
-    <button mat-button class="menu-button" routerLink="/carpetas">
+    <button mat-button class="menu-button" routerLink="/carpetas" routerLinkActive="active" >
       <mat-icon>folder</mat-icon>
       <span>Tus carpetas</span>
     </button>
 
     <mat-divider></mat-divider>
-    <button mat-button class="menu-button" routerLink="/crear-nota">
+    <button mat-button class="menu-button" routerLink="/crear-nota" routerLinkActive="active">
       <mat-icon>note_add</mat-icon>
       <span>Crear Nota</span>
     </button>
     
-    <button mat-button class="menu-button" routerLink="/crear-carpeta">
+    <button mat-button class="menu-button" routerLink="/crear-carpeta" routerLinkActive="active">
       <mat-icon>create_new_folder</mat-icon>
       <span>Crear Carpeta</span>
     </button>
     
     <mat-divider></mat-divider>
-    <button mat-button class="menu-button" routerLink="/papelera">
+    <button mat-button class="menu-button" routerLink="/papelera" routerLinkActive="active">
       <mat-icon>delete</mat-icon>
       <span>Papelera</span>
     </button>

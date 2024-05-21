@@ -5,10 +5,7 @@
         <strong>Notas: {{ folder.notes?.length || 0 }}</strong>
     </mat-card-header>
     <mat-card-actions align="end">
-        <button mat-icon-button
-        *ngIf="!isDeleted">
-            <mat-icon>add</mat-icon>
-        </button>
+       
         <button mat-icon-button
         *ngIf="isDeleted"
         (click)="restore(folder)">

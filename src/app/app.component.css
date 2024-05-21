@@ -48,3 +48,8 @@ mat-sidenav-container{
     font-size: 1rem;
     margin-bottom: 2px;
 }
+
+.menu-button.active {
+    background-color:rgba(56, 7, 108, 0.364);
+  }
+  

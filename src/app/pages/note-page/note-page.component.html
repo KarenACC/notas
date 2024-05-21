@@ -13,6 +13,9 @@
           <mat-form-field *ngIf="!note.deleted">
             <mat-label>Agregar a </mat-label>
             <mat-select matInput>
+              <mat-option value="notas" (click)="selectFolder('notas')">
+                Notas
+              </mat-option>
               <mat-option [value]="folder.name" *ngFor="let folder of folders"
                           (click)="selectFolder(folder.id)">
                           

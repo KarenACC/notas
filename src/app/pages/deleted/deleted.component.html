@@ -1,7 +1,7 @@
 <h2>Papelera</h2>
+<app-empty-alert *ngIf="foldersTrash.length===0 && trash.length===0"></app-empty-alert>
 <div class="container">
 
-    <app-empty-alert *ngIf="foldersTrash.length===0 && trash.length===0"></app-empty-alert>
 
     <app-folder-card
     *ngFor="let folder of foldersTrash"

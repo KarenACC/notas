@@ -31,6 +31,12 @@
         *ngIf="!folder.deleted">
             <mat-icon style="color: white;">delete</mat-icon>
         </button>
+
+        <button mat-icon-button
+        *ngIf="folder.deleted"
+        (click)="restore(folder)">
+            <mat-icon>restore</mat-icon>
+        </button>
      
         <button mat-icon-button style="background-color: rgb(210, 18, 18);"
         *ngIf="folder.deleted"

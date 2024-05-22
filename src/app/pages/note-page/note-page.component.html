@@ -10,10 +10,13 @@
             </textarea>
         
 
-          <mat-form-field *ngIf="!note.deleted">
-            <mat-label>Agregar a </mat-label>
+          <mat-form-field 
+          *ngIf="!note.deleted && folders.length>0">
+            <mat-label>Guardar en </mat-label>
             <mat-select matInput>
-              <mat-option value="notas" (click)="selectFolder('notas')">
+              <mat-option 
+              value="notas" 
+              (click)="selectFolder('notas')">
                 Notas
               </mat-option>
               <mat-option [value]="folder.name" *ngFor="let folder of folders"
@@ -37,6 +40,10 @@
             *ngIf="!note.deleted">
                 <mat-icon style="color: white;">delete</mat-icon>
             </button>
+
+            <button mat-icon-button *ngIf="note.deleted" (click)="restore(note)">
+              <mat-icon>restore</mat-icon>
+           </button>
 
             <button mat-icon-button style="background-color: rgb(210, 18, 18);"
             *ngIf="note.deleted"

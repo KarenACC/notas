@@ -10,6 +10,12 @@ mat-card-header{
     flex-direction: column;
 }
 
+#restore{
+    /* background-color: rgb(251, 231, 245); */
+    background-color: rgb(227, 208, 244);
+    margin: 5px;
+}
+
 @media (max-width:410px){
     mat-card{
         width:300px;

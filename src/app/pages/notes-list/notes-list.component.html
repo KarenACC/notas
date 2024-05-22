@@ -5,8 +5,13 @@
     
     <app-note-card
     *ngFor="let note of list"
-    [title]="note.title"
     [note]="note"
     >
     </app-note-card>
 </div>
+<button 
+    mat-icon-button 
+    matTooltip="Crear Nota"
+    routerLink="/crear-nota">
+        <mat-icon>add</mat-icon>
+</button>

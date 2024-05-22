@@ -17,11 +17,18 @@
             </textarea>
           </mat-form-field>
 
-          <mat-form-field>
-            <mat-label>Agregar a </mat-label>
+          <mat-form-field 
+          *ngIf="!note.deleted && folders.length>0">
+            <mat-label>Guardar en </mat-label>
             <mat-select matInput>
+              <mat-option 
+              value="notas" 
+              (click)="selectFolder('notas')">
+                Notas
+              </mat-option>
               <mat-option [value]="folder.name" *ngFor="let folder of folders"
                           (click)="selectFolder(folder.id)">
+                          
                                   {{ folder.name | titlecase}}
             </mat-option>
             </mat-select>

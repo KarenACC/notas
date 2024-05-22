@@ -14,6 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { TextFieldModule } from '@angular/cdk/text-field';
 
 
@@ -60,6 +61,7 @@ import { EmptyAlertComponent } from './components/empty-alert/empty-alert.compon
     TextFieldModule,
     FormsModule,
     MatCardModule,
+    MatTooltipModule
   ],
   providers: [
   ],

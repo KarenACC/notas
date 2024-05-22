@@ -15,7 +15,6 @@
 }
 
 .actions{
-    height: 600px;
     display: flex;
     justify-content: start;
     align-items:start;

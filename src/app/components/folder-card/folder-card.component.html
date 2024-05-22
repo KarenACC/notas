@@ -7,13 +7,15 @@
     <mat-card-actions align="end">
        
         <button mat-icon-button
+        matTooltip="Restablecer"
         *ngIf="isDeleted"
-        (click)="restore(folder)">
+        (click)="restore(folder)" id="restore">
             <mat-icon>restore</mat-icon>
         </button>
         <button mat-icon-button style="background-color: rgb(210, 18, 18);"
-        *ngIf="isDeleted"
-        (click)="deleteForeverModal(folder)">
+                matTooltip="Eliminar Permanentemente"
+                *ngIf="isDeleted"
+                (click)="deleteForeverModal(folder)">
             <mat-icon style="color: white;">delete_forever</mat-icon>
         </button>
         <button mat-icon-button style="background-color: rgb(210, 18, 18);"

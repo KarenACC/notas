@@ -24,7 +24,7 @@ export class FolderCardComponent {
   deleteModal(folder:Folder){
     folder.deleted=true;
     Swal.fire({
-      title: "¿Enviar a papelera?",
+      title: "¿Enviar esta carpeta y su contenido a la papelera?",
       showConfirmButton: false,
       showDenyButton: true,
       showCancelButton: true,
@@ -36,7 +36,7 @@ export class FolderCardComponent {
         Swal.fire("Saved!", "", "success");
       } else if (result.isDenied) {
         this.notesService.deleteOrRestoreFolder(folder)
-        Swal.fire("Nota enviada la papelera", "", "warning");
+        Swal.fire("Nota enviada la papelera", "Podrás recuperarla por los próximos 15 días", "success");
         this.router.navigate(['/carpetas'])
       }
     });
@@ -49,7 +49,7 @@ export class FolderCardComponent {
 
   deleteForeverModal(folder:Folder){
     Swal.fire({
-      title: "¿Eliminar permanentemente?",
+      title: "¿Eliminar esta carpeta y su contenido permanentemente?",
       showConfirmButton: false,
       showDenyButton: true,
       showCancelButton: true,
@@ -61,7 +61,7 @@ export class FolderCardComponent {
         Swal.fire("Saved!", "", "success");
       } else if (result.isDenied) {
         this.notesService.deleteForeverFolder(folder)
-        Swal.fire("Carpeta eliminada de la papelera", "", "warning");
+        Swal.fire("Carpeta eliminada de la papelera", "", "success");
       }
     });
   }

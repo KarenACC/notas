@@ -49,8 +49,7 @@ export class NoteComponent implements OnInit {
         Swal.fire("Saved!", "", "success");
       } else if (result.isDenied) {
         this.notesService.deleteOrRestore(note)
-        Swal.fire("Nota enviada la papelera", "", "warning");
-        this.router.navigate(['/notas'])
+        Swal.fire("Nota enviada la papelera", "Podrás recuperarla por los próximos 15 días", "success");
       }
     });
   }
@@ -74,7 +73,7 @@ export class NoteComponent implements OnInit {
         Swal.fire("Saved!", "", "success");
       } else if (result.isDenied) {
         this.notesService.deleteForever(note)
-        Swal.fire("Nota eliminada de la papelera", "", "warning");
+        Swal.fire("Nota eliminada de la papelera", "", "success");
       }
     });
   }

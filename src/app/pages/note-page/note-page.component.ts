@@ -60,7 +60,7 @@ export class NotePageComponent implements OnInit{
       } else if (result.isDenied) {
         note.deleted=true;
         this.notesService.deleteOrRestore(note)
-        Swal.fire("Nota enviada la papelera", "", "warning");
+        Swal.fire("Nota enviada la papelera", "", "success");
         this.router.navigate(['/notas'])
       }
     });
@@ -112,9 +112,15 @@ export class NotePageComponent implements OnInit{
         Swal.fire("Saved!", "", "success");
       } else if (result.isDenied) {
         this.notesService.deleteForever(note)
-        Swal.fire("Nota eliminada de la papelera", "", "warning");
+        Swal.fire("Nota eliminada de la papelera", "", "success");
         this.router.navigate(['/papelera'])
       }
     });
+  };
+
+  restore(note:Note){
+    note.deleted=false;
+    this.notesService.deleteOrRestore(note);
+    this.router.navigate(['/notas']);
   }
 }

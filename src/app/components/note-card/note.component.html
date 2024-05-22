@@ -9,17 +9,25 @@
     
     <mat-card-actions align="end">
         
-        <button mat-icon-button *ngIf="isDeleted" (click)="restore(note)">
-            <mat-icon>restore</mat-icon>
+        <button mat-icon-button 
+            *ngIf="isDeleted" 
+            (click)="restore(note)" 
+            matTooltip="Restablecer"
+            id="restore">
+                <mat-icon>restore</mat-icon>
         </button>
-        <button mat-icon-button style="background-color: rgb(210, 18, 18);"
-        *ngIf="isDeleted"
-        (click)="deleteForeverModal(note)">
-            <mat-icon style="color: white;">delete_forever</mat-icon>
+        <button 
+            mat-icon-button 
+            style="background-color: rgb(210, 18, 18);"
+            *ngIf="isDeleted"
+            (click)="deleteForeverModal(note)"
+            matTooltip="Eliminar Permanentemente">
+                <mat-icon style="color: white;">delete_forever</mat-icon>
         </button>
         <button mat-icon-button style="background-color: rgb(210, 18, 18);"
                 (click)="deleteModal(note)"
-                *ngIf="!isDeleted">
+                *ngIf="!isDeleted"
+                matTooltip="Eliminar">
             <mat-icon style="color: white;">delete</mat-icon>
         </button>
     </mat-card-actions>
